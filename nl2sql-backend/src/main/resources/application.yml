@@ -1,0 +1,21 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: nl2sql
+  mvc:
+    problemdetails:
+      enabled: true  # modern RFC7807 error responses
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+app:
+  cors:
+    allowed-origins: "http://localhost:5173"
+
+  provider: stub
