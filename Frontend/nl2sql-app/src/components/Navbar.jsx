@@ -18,7 +18,7 @@ export default function Navbar({ theme, setTheme }) {
             <Link to="/" className="hover:opacity-80 transition">Home</Link>
             <Link to="/business" className="hover:opacity-80 transition">Business</Link>
             
-            <Link to="/api" className="hover:opacity-80 transition">API</Link>
+            <Link to="/local" className="hover:opacity-80 transition">Local</Link>
             <Link to="/about" className="hover:opacity-80 transition">About</Link>
           </div>
 

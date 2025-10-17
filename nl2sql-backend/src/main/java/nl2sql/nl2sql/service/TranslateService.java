@@ -1,5 +1,6 @@
 package nl2sql.nl2sql.service;
 
+import nl2sql.nl2sql.dto.Dialect;
 import nl2sql.nl2sql.dto.TranslateRequest;
 import nl2sql.nl2sql.dto.TranslateResponse;
 import org.springframework.stereotype.Service;
@@ -21,12 +22,17 @@ public class TranslateService {
         long start = System.currentTimeMillis();
 
         // 🔹 Instruction for Gemini: SQL only + short explanation
-        String prompt = "Convert the following natural language into a SQL query for dialect "
-                + request.dialect()
-                + ".\nReturn output strictly in JSON with two fields: "
-                + "`sql` (SQL query only, no comments, no markdown) and "
-                + "`explanation` (near about 70 to 80 words).\n\n"
-                + "Text: " + request.text();
+        Dialect dialect = request.dialect();
+        String dialectName = (dialect != null) ? dialect.name() : "MYSQL";
+
+        String text = request.text() != null ? request.text() : "";
+
+        String prompt = String.format(
+                "Convert the following natural language into a SQL query for dialect %s.\nReturn output strictly in JSON with two fields: `sql` (SQL query only, no comments, no markdown) and `explanation` (near about 70 to 80 words).\n\nText: %s",
+                dialectName,
+                text
+        );
+
 
         // Prepare request body
         Map<String, Object> body = new HashMap<>();

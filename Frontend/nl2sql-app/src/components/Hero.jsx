@@ -11,6 +11,7 @@ export default function Hero() {
         >
           Convert <span className="grad-text">Natural Language</span> to <span className="grad-text">SQL</span> Instantly
         </motion.h1>
+       
 
         <motion.p
           initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}

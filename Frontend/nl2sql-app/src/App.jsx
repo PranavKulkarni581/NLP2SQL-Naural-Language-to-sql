@@ -7,6 +7,9 @@ import Features from './components/Features'
 import Footer from './components/Footer'
 import GradientBG from './components/GradientBG'
 import BusinessModelPage from './components/BusinessModelPage'
+import LocalDb from './components/LocalDb'
+
+
 
 export default function App() {
   const [theme, setTheme] = useState(() => localStorage.getItem('theme') || 'light')
@@ -36,6 +39,7 @@ export default function App() {
               }
             />
         <Route path="/business" element={<BusinessModelPage />} />
+       <Route path="/local" element={<LocalDb />} />
           </Routes>
         </main>
 
