@@ -14,3 +14,4 @@ public class Nl2sqlApplication {
 //
 //Would you like me to also show how to store the DB connection in a service class so that it stays active between requests (like a session)?
 //That makes /api/connect → /api/execute flow seamless without reconnecting every time.
+	
