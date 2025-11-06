@@ -9,13 +9,17 @@ export default function Converter() {
   const [loading, setLoading] = useState(false)
   const [copied, setCopied] = useState(false)
   const [dialect, setDialect] = useState('POSTGRES')
+  const [optimize, setOptimize] = useState(false);
+const [optimization, setOptimization] = useState(null);
 
-  const convert = async () => {
-  if (!input.trim()) return
-  setLoading(true)
-  setCopied(false)
-  setSql('')
-  setExplanation('')
+const convert = async () => {
+  if (!input.trim()) return;
+
+  setLoading(true);
+  setCopied(false);
+  setSql('');
+  setExplanation('');
+  setOptimization(null); // reset optimization block
 
   try {
     const res = await fetch("http://localhost:8080/api/translate", {
@@ -23,27 +27,43 @@ export default function Converter() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         text: input,
-        dialect: dialect
+        dialect: dialect,
+        optimize: optimize
       })
-    })
+    });
 
     if (!res.ok) {
-      throw new Error(`Server error: ${res.status}`)
+      throw new Error(`Server error: ${res.status}`);
     }
 
-    const data = await res.json()
+    const data = await res.json();
 
-    // ✅ Directly use backend fields (no regex parsing)
-    setSql(data.sql || '-- No SQL found')
-    setExplanation(data.model || '-- No explanation found')
+    // ✅ If SQL conversion mode
+    setSql(data.sql || '-- No SQL found');
+    setExplanation(data.explanation || '-- No explanation found');
+
+    // ✅ If Optimize mode data present → update optimization UI block
+    if (data.optimizedSql) {
+      setOptimization({
+        optimizedSql: data.optimizedSql,
+        suggestions: data.suggestions || [],
+        indexes: data.indexes || [],
+        complexity: data.complexity || "Unknown",
+        cost: data.cost || "Unknown",
+      });
+    } else {
+      setOptimization(null);
+    }
 
   } catch (err) {
-    setSql(`-- Error: ${err.message}`)
-    setExplanation('')
+    setSql(`-- Error: ${err.message}`);
+    setExplanation('');
+    setOptimization(null);
   } finally {
-    setLoading(false)
+    setLoading(false);
   }
-}
+};
+
 
 
   const copySQL = async () => {
@@ -95,6 +115,18 @@ export default function Converter() {
               <option value="ORACLE">Oracle</option>
             </select>
           </div>
+<div className="mt-4 flex items-center gap-3">
+  <input
+    type="checkbox"
+    id="optimizeMode"
+    className="h-4 w-4"
+    checked={optimize}
+    onChange={(e) => setOptimize(e.target.checked)}
+  />
+  <label htmlFor="optimizeMode" className="text-sm font-medium text-slate-700 dark:text-slate-300">
+    Enable SQL Optimization Mode
+  </label>
+</div>
 
           {/* Convert Button */}
           <div className="flex justify-center">
@@ -144,6 +176,45 @@ export default function Converter() {
 {sql || '-- Your SQL will appear here'}
             </pre>
           </motion.div>
+          {optimization && (
+  <motion.div
+    initial={{ opacity: 0, y: 20 }}
+    whileInView={{ opacity: 1, y: 0 }}
+    transition={{ duration: 0.4 }}
+    className="glass rounded-3xl border border-indigo-400/40 shadow-lg p-4 space-y-4"
+  >
+    <h3 className="text-lg font-semibold text-indigo-600">⚡ Optimization Report</h3>
+
+    <div>
+      <p className="font-semibold">Optimized SQL:</p>
+      <pre className="bg-slate-900/60 text-white p-3 rounded-xl text-sm overflow-auto">
+{optimization.optimizedSql}
+      </pre>
+    </div>
+
+    <div>
+      <p className="font-semibold">Suggestions:</p>
+      <ul className="list-disc list-inside text-sm text-slate-700 dark:text-slate-300">
+        {optimization.suggestions.map((s, i) => (
+          <li key={i}>{s}</li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <p className="font-semibold">Recommended Indexes:</p>
+      <ul className="list-disc list-inside text-sm text-green-600">
+        {optimization.indexes.map((i, idx) => (
+          <li key={idx}>{i}</li>
+        ))}
+      </ul>
+    </div>
+
+    <p><strong>Big-O Complexity:</strong> {optimization.complexity}</p>
+    <p><strong>Estimated Cost:</strong> {optimization.cost}</p>
+  </motion.div>
+)}
+
 
           {/* Explanation */}
           <motion.div

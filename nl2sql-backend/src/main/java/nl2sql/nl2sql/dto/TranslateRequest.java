@@ -5,5 +5,6 @@ import jakarta.validation.constraints.Size;
 
 public record TranslateRequest(
         @NotBlank @Size(max = 1000) String text,
-        @NotNull Dialect dialect
+        @NotNull Dialect dialect,
+        boolean optimize
 ) {}
