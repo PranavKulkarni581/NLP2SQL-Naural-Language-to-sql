@@ -5,5 +5,7 @@ public record BusinessModelResponse(
         String schemaDescription, // Explanation of entities and attributes
         String erDiagram,         // Optional: textual ER diagram description
         long latency,
-        String error
+        String error,
+        String sqlScript
+
 ) {}
