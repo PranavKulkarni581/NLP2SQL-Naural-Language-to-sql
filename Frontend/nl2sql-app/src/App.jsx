@@ -8,7 +8,7 @@ import Footer from './components/Footer'
 import GradientBG from './components/GradientBG'
 import BusinessModelPage from './components/BusinessModelPage'
 import LocalDb from './components/LocalDb'
-
+import About from './components/About'
 
 
 export default function App() {
@@ -40,6 +40,7 @@ export default function App() {
             />
         <Route path="/business" element={<BusinessModelPage />} />
        <Route path="/local" element={<LocalDb />} />
+       <Route path="/about" element={<About/>}/>
           </Routes>
         </main>
 
