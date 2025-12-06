@@ -4,7 +4,7 @@ import { Github, Linkedin, Rocket } from "lucide-react";
 export default function AboutUs() {
   const team = [
     {
-      name: "Pranav Kulkarni",
+      name: "Haripriya Yele",
       role: "Full Stack Developer",
       img: "https://i.pravatar.cc/300?img=5",
       github: "https://github.com/yourGithub",
@@ -12,7 +12,7 @@ export default function AboutUs() {
       desc: "Built the UI/UX and implemented the complete frontend with seamless user flow.",
     },
     {
-      name: "Haripriya Yele",
+      name: "Pranav Kulkarni",
       role: "Backend & AI Engineer",
       img: "https://i.pravatar.cc/300?img=12",
       github: "https://github.com/yourGithub2",
