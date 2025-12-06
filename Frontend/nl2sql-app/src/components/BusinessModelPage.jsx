@@ -118,7 +118,9 @@ export default function BusinessModelPage() {
     setSqlScript("");
 
     try {
-      const res = await fetch("https://askdbnlp-2-sql.vercel.app/business-model", {
+      const res = await fetch(
+  "https://nl2sql-naural-language-to-sql.onrender.com/api/business-model",
+  { 
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ modelName: input }),
