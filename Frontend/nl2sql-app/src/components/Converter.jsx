@@ -22,7 +22,7 @@ const convert = async () => {
   setOptimization(null); // reset optimization block
 
   try {
-    const res = await fetch("http://localhost:8080/api/translate", {
+    const res = await fetch("https://nlp2sql-naural-language-to-sql.onrender.com/api/translate", {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

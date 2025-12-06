@@ -37,7 +37,7 @@ export default function LocalDb() {
 
     setLoading(true)
     try {
-      const res = await fetch('http://localhost:8080/api/connect', {
+      const res = await fetch('https://nlp2sql-naural-language-to-sql.onrender.com/api/connect', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ dbType: 'mysql', ...dbForm })
@@ -64,7 +64,7 @@ export default function LocalDb() {
 
     setLoading(true)
     try {
-      const translateRes = await fetch('http://localhost:8080/api/translate', {
+      const translateRes = await fetch('https://nlp2sql-naural-language-to-sql.onrender.com/api/translate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ text: nlQuery, dialect: 'MYSQL' })
@@ -84,7 +84,7 @@ export default function LocalDb() {
       // ✅ Start time
       const start = performance.now()
 
-      const execRes = await fetch('http://localhost:8080/api/execute', {
+      const execRes = await fetch('https://nlp2sql-naural-language-to-sql.onrender.com/api/execute', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...dbForm, sql: sqlQuery })
